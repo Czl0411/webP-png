@@ -5,7 +5,7 @@
 ## 下载与安装
 
 1. 打开仓库的 [Releases](https://github.com/Czl0411/webP-png/releases) 页面。
-2. 下载最新的 `WebP转PNG-Setup.exe` 并双击运行。
+2. 下载最新的 `WebP-to-PNG-Setup.exe` 并双击运行。
 3. 安装不需要管理员权限，会创建开始菜单和桌面快捷方式。
 
 ## 使用方法
@@ -21,11 +21,11 @@
 
 每次推送到 `main`，GitHub Actions 会在 Windows 上测试并构建安装包，可在对应 Actions 运行记录的 `WebP转PNG-windows` artifact 下载。
 
-推送版本标签（例如 `v1.0.0`）后，Actions 还会创建 GitHub Release 并附上 `WebP转PNG-Setup.exe`。
+推送版本标签（例如 `v1.0.0`）后，Actions 还会创建 GitHub Release 并附上 `WebP-to-PNG-Setup.exe`。
 
 ### 构建验证
 
 1. 推送到 `main` 后，打开 Actions 的 “Build Windows Setup” 运行记录。
 2. 确认测试步骤通过，并下载 `WebP转PNG-windows` artifact。
-3. 解压后确认文件名为 `WebP转PNG-Setup.exe`，双击后无需管理员权限即可安装。
+3. 解压后确认文件名为 `WebP-to-PNG-Setup.exe`，双击后无需管理员权限即可安装。
 4. 推送 `v1.0.0` 标签后，在 Releases 页面确认存在同名安装包附件。

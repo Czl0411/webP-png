@@ -5,7 +5,7 @@ DefaultDirName={localappdata}\WebP转PNG
 DefaultGroupName=WebP转PNG
 DisableProgramGroupPage=yes
 OutputDir=dist
-OutputBaseFilename=WebP转PNG-Setup
+OutputBaseFilename=WebP-to-PNG-Setup
 PrivilegesRequired=lowest
 
 [Files]
