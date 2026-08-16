@@ -3,12 +3,22 @@ const path = require('node:path');
 const sharp = require('sharp');
 
 async function findWebpFiles(sourceDir) {
-  const entries = await fs.readdir(sourceDir, { withFileTypes: true });
+  const files = [];
 
-  return entries
-    .filter((entry) => entry.isFile() && path.extname(entry.name).toLowerCase() === '.webp')
-    .map((entry) => path.join(sourceDir, entry.name))
-    .sort((left, right) => path.basename(left).localeCompare(path.basename(right)));
+  async function visit(directory) {
+    for (const entry of await fs.readdir(directory, { withFileTypes: true })) {
+      const entryPath = path.join(directory, entry.name);
+
+      if (entry.isDirectory()) {
+        await visit(entryPath);
+      } else if (entry.isFile() && path.extname(entry.name).toLowerCase() === '.webp') {
+        files.push(entryPath);
+      }
+    }
+  }
+
+  await visit(sourceDir);
+  return files.sort((left, right) => left.localeCompare(right));
 }
 
 async function convertDirectory(sourceDir, outputDir) {
@@ -17,7 +27,11 @@ async function convertDirectory(sourceDir, outputDir) {
 
   for (const sourcePath of await findWebpFiles(sourceDir)) {
     try {
-      await sharp(sourcePath).png().toFile(path.join(outputDir, `${path.parse(sourcePath).name}.png`));
+      const parsedPath = path.parse(path.relative(sourceDir, sourcePath));
+      const outputPath = path.join(outputDir, parsedPath.dir, `${parsedPath.name}.png`);
+
+      await fs.mkdir(path.dirname(outputPath), { recursive: true });
+      await sharp(sourcePath).png().toFile(outputPath);
       succeeded += 1;
     } catch {
       failed.push(sourcePath);

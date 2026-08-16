@@ -4,23 +4,30 @@ const fs = require('node:fs/promises');
 const os = require('node:os');
 const path = require('node:path');
 const sharp = require('sharp');
-const { convertDirectory, findWebpFiles } = require('../converter');
+const { convertDirectory } = require('../converter');
 
 async function tempDir() {
   return fs.mkdtemp(path.join(os.tmpdir(), 'webp-to-png-'));
 }
 
-test('lists only direct WebP files', async () => {
+test('converts nested WebP files into matching output folders', async () => {
   const source = await tempDir();
+  const output = await tempDir();
+  const nested = path.join(source, 'products', 'summer');
+  await fs.mkdir(nested, { recursive: true });
   await sharp({ create: { width: 1, height: 1, channels: 3, background: 'red' } })
     .webp()
-    .toFile(path.join(source, 'b.webp'));
+    .toFile(path.join(source, 'cover.webp'));
   await sharp({ create: { width: 1, height: 1, channels: 3, background: 'blue' } })
     .webp()
-    .toFile(path.join(source, 'a.WEBP'));
-  await fs.mkdir(path.join(source, 'nested'));
+    .toFile(path.join(nested, 'cover.WEBP'));
 
-  assert.deepEqual((await findWebpFiles(source)).map((file) => path.basename(file)), ['a.WEBP', 'b.webp']);
+  const result = await convertDirectory(source, output);
+
+  assert.equal(result.succeeded, 2);
+  assert.deepEqual(result.failed, []);
+  await fs.access(path.join(output, 'cover.png'));
+  await fs.access(path.join(output, 'products', 'summer', 'cover.png'));
 });
 
 test('converts valid files and records invalid files', async () => {
