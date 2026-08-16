@@ -35,7 +35,7 @@
 - Consumes: `findWebpFiles(sourceDir: string): Promise<string[]>` and `convertDirectory(sourceDir: string, outputDir: string): Promise<{ succeeded: number, failed: string[] }>`.
 - Produces: `findWebpFiles` returns WebP files from the entire source tree; `convertDirectory` emits each PNG to the matching relative output directory.
 
-- [ ] **Step 1: Write the failing test**
+- [x] **Step 1: Write the failing test**
 
 Replace the direct-files assertion with this test, which uses real `sharp` image files and asserts the user-visible output files:
 
@@ -61,13 +61,13 @@ test('converts nested WebP files into matching output folders', async () => {
 });
 ```
 
-- [ ] **Step 2: Run the focused test to verify it fails**
+- [x] **Step 2: Run the focused test to verify it fails**
 
 Run: `node --test tests/converter.test.js`
 
 Expected: FAIL because the existing converter reads only direct entries, so `result.succeeded` is `1` and `output/products/summer/cover.png` does not exist.
 
-- [ ] **Step 3: Implement the minimal recursive behavior**
+- [x] **Step 3: Implement the minimal recursive behavior**
 
 Replace direct `readdir` filtering with a local recursive walk and sort the full file paths:
 
@@ -90,17 +90,17 @@ async function findWebpFiles(sourceDir) {
 
 In `convertDirectory`, calculate `relativePath = path.relative(sourceDir, sourcePath)`, write to `path.join(outputDir, path.parse(relativePath).dir, `${path.parse(relativePath).name}.png`)`, and run `await fs.mkdir(path.dirname(outputPath), { recursive: true })` before `sharp(...).toFile(outputPath)`.
 
-- [ ] **Step 4: Update the user-facing description**
+- [x] **Step 4: Update the user-facing description**
 
 Change the README sentence that says only the current folder level is converted to state that all subfolders are scanned and their hierarchy is retained below the output directory.
 
-- [ ] **Step 5: Run the complete test suite and static diff check**
+- [x] **Step 5: Run the complete test suite and static diff check**
 
 Run: `npm test && git diff --check`
 
 Expected: all tests pass and `git diff --check` prints no output.
 
-- [ ] **Step 6: Commit the implementation**
+- [x] **Step 6: Commit the implementation**
 
 ```bash
 git add converter.js tests/converter.test.js README.md
@@ -116,11 +116,11 @@ git commit -m "feat: convert WebP files recursively"
 - Consumes: the passing recursive converter and the existing `.github/workflows/build.yml` pipeline.
 - Produces: a GitHub Release tagged `v1.1.1` with `WebP-to-PNG-Setup.exe` attached.
 
-- [ ] **Step 1: Bump the release version**
+- [x] **Step 1: Bump the release version**
 
 Change `package.json` from `"version": "1.1.0"` to `"version": "1.1.1"`.
 
-- [ ] **Step 2: Re-run tests and commit the version**
+- [x] **Step 2: Re-run tests and commit the version**
 
 Run: `npm test && git diff --check`
 
