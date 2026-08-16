@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WebP 批量转 PNG</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main>
+      <h1>WebP 批量转 PNG</h1>
+      <section class="folder-row">
+        <span class="label">源文件夹</span>
+        <span id="source-path" class="path">未选择</span>
+        <button id="choose-source" type="button">选择文件夹</button>
+      </section>
+      <section class="folder-row">
+        <span class="label">输出文件夹</span>
+        <span id="output-path" class="path">未选择</span>
+        <button id="choose-output" type="button">选择文件夹</button>
+      </section>
+      <button id="convert" class="convert" type="button">开始转换</button>
+      <p id="status" role="status">请选择源文件夹和输出文件夹</p>
+    </main>
+    <script src="renderer.js"></script>
+  </body>
+</html>
