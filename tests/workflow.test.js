@@ -10,3 +10,9 @@ test('Windows workflow tests and packages Electron', () => {
   assert.match(workflow, /npm run dist:win/);
   assert.match(workflow, /release\/WebP-to-PNG-Setup\.exe/);
 });
+
+test('electron-builder does not attempt to publish during artifact builds', () => {
+  const packageJson = JSON.parse(fs.readFileSync('package.json', 'utf8'));
+
+  assert.match(packageJson.scripts['dist:win'], /--publish never/);
+});
