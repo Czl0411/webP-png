@@ -1,9 +1,6 @@
-.venv/
-__pycache__/
-.pytest_cache/
 build/
 dist/
-*.spec
+__pycache__/
 node_modules/
 release/
 .electron-builder/

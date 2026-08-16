@@ -14,5 +14,17 @@
   "devDependencies": {
     "electron": "^38.0.0",
     "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.czl0411.webp-to-png",
+    "productName": "WebP to PNG",
+    "directories": {
+      "output": "release"
+    },
+    "nsis": {
+      "perMachine": false,
+      "oneClick": false,
+      "artifactName": "WebP-to-PNG-Setup.${ext}"
+    }
   }
 }
